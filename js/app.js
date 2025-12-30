@@ -1,4 +1,5 @@
 const pidInput = document.getElementById("pid");
+const pidError = document.getElementById("pidError");
 const codeList = document.getElementById("codeList");
 
 function getExpireText(dateStr) {
@@ -27,6 +28,21 @@ pidInput.value = localStorage.getItem("pid") || "";
 pidInput.addEventListener("input", () => {
   localStorage.setItem("pid", pidInput.value.trim());
 });
+
+// input handler
+pidInput.addEventListener("input", () => {
+  pidInput.value = pidInput.value.toUpperCase().replace(/[^A-F0-9]/g, "");
+
+  localStorage.setItem("pid", pidInput.value);
+
+  pidInput.classList.remove("is-invalid", "shake");
+  pidError.classList.add("d-none");
+});
+
+// validate function
+function validatePID(pid) {
+  return /^[A-F0-9]{32}$/.test(pid);
+}
 
 // load redeemed
 let redeemed = JSON.parse(localStorage.getItem("redeemedCodes") || "[]");
@@ -64,8 +80,15 @@ fetch("data/codes.json")
         const code = btn.dataset.code;
         const pid = pidInput.value.trim();
 
-        if (!pid) {
-          alert("กรุณากรอก Player ID");
+        if (!validatePID(pid)) {
+          pidInput.classList.add("is-invalid", "shake");
+          pidError.textContent = "กรุณากรอก UID ให้ถูกต้อง";
+          pidError.classList.remove("d-none");
+
+          // reset shake เพื่อให้สั่นซ้ำได้
+          setTimeout(() => pidInput.classList.remove("shake"), 300);
+
+          pidInput.focus();
           return;
         }
 

@@ -29,7 +29,7 @@ fetch("data/codes.json")
           <p class="mb-1">${c.reward}</p>
           <small>หมดอายุ: ${c.expire}</small>
           <button class="btn btn-redeem mt-2" data-code="${c.code}">
-            <i class="fas ${used ? "fa-check" : "fa-gift"}"></i>
+            <i class="fas ${used ? "fa-check text-success" : "fa-gift"}"></i>
             รับโค้ด
           </button>
         </div>

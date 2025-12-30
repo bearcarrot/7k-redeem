@@ -80,6 +80,17 @@ fetch("data/codes.json")
         const code = btn.dataset.code;
         const pid = pidInput.value.trim();
 
+
+        if (!pid) {
+          pidInput.classList.add("is-invalid", "shake");
+          pidError.textContent = "กรุณากรอก UID";
+          pidError.classList.remove("d-none");
+
+          setTimeout(() => pidInput.classList.remove("shake"), 300);
+          pidInput.focus();
+          return;
+        }
+
         if (!validatePID(pid)) {
           pidInput.classList.add("is-invalid", "shake");
           pidError.textContent = "กรุณากรอก UID ให้ถูกต้อง";

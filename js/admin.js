@@ -57,7 +57,7 @@ function addCode() {
   codes.push({
     code,
     reward,
-    expire: expire + "T23:59:59"
+    expire: expire
   });
 
   render();

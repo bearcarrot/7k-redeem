@@ -1,5 +1,5 @@
-const ADMIN_PASS = "lvcr270319";
-const pass = prompt("Password");
+const ADMIN_PASS = "bearcarrot";
+const pass = prompt("กรุณากรอก Password");
 
 if (pass !== ADMIN_PASS) {
   location.href = "./";

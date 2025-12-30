@@ -96,9 +96,9 @@ fetch("data/codes.json")
         if (!redeemed.includes(code)) {
           redeemed.push(code);
           localStorage.setItem("redeemedCodes", JSON.stringify(redeemed));
-          btn.querySelector("i").className = "fas fa-check";
+          btn.querySelector("i").className = "fas fa-check text-success";
           btn.classList.add("used");
-          btn.innerHTML = `<i class="fas fa-check"></i> รับแล้ว`;
+          btn.innerHTML = `<i class="fas fa-check text-success"></i> รับแล้ว`;
         }
 
         const url = `https://coupon.netmarble.com/tskgb?playerId=${pid}&code=${code}`;

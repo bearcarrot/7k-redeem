@@ -65,7 +65,7 @@ fetch("data/codes.json")
           <h5>${c.code}</h5>
           <p class="mb-1">${c.reward}</p>
           <small>หมดอายุ: ${getExpireText(c.expire)}</small>
-          <button class="btn btn-redeem mt-2" data-code="${c.code}">
+          <button class="btn btn-redeem ${used ? "used" : ""} mt-2" data-code="${c.code}">
             <i class="fas ${used ? "fa-check text-success" : "fa-gift"}"></i>
             ${used ? "รับแล้ว" : "รับโค้ด"}
           </button>

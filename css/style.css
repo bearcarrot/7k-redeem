@@ -37,8 +37,7 @@ body {
 }
 
 .btn-redeem.used {
-  background: #6c757d;
-  border-color: #6c757d;
+  background: #caa99d;
   opacity: 0.8;
 }
 

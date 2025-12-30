@@ -1,0 +1,36 @@
+body {
+  background: #2b0f0f;
+  color: #fff;
+  font-family: system-ui;
+}
+
+.logo {
+  max-width: 120px;
+}
+
+.card {
+  background: #4a0f0f;
+  border: 1px solid #caa24d;
+}
+
+.btn-redeem {
+  background: #caa24d;
+  color: #000;
+}
+
+.btn-redeem:hover {
+  background: #e6c87a;
+}
+
+.credit {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+  font-size: 13px;
+  opacity: .8;
+}
+
+.credit a {
+  color: #ffd966;
+  text-decoration: none;
+}

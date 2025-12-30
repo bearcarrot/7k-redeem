@@ -1,6 +1,26 @@
 const pidInput = document.getElementById("pid");
 const codeList = document.getElementById("codeList");
 
+function getExpireText(dateStr) {
+  const expire = new Date(dateStr + "T23:59:59");
+  const now = new Date();
+
+  const diffMs = expire - now;
+  if (diffMs <= 0) return "หมดอายุแล้ว";
+
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+
+  const d = expire.getDate().toString().padStart(2, "0");
+  const m = (expire.getMonth() + 1).toString().padStart(2, "0");
+  const y = expire.getFullYear();
+
+  if (diffHours < 24) {
+    return `${d}/${m}/${y} ( ${diffHours} ชั่วโมง )`;
+  }
+
+  const diffDays = Math.ceil(diffHours / 24);
+  return `${d}/${m}/${y} ( ${diffDays} วัน )`;
+}
 
 // load PID
 pidInput.value = localStorage.getItem("pid") || "";
@@ -28,10 +48,10 @@ fetch("data/codes.json")
         <div class="card p-3 h-100">
           <h5>${c.code}</h5>
           <p class="mb-1">${c.reward}</p>
-          <small>หมดอายุ: ${c.expire}</small>
+          <small>หมดอายุ: ${getExpireText(c.expire)}</small>
           <button class="btn btn-redeem mt-2" data-code="${c.code}">
             <i class="fas ${used ? "fa-check text-success" : "fa-gift"}"></i>
-            รับโค้ด
+            ${used ? "รับแล้ว" : "รับโค้ด"}
           </button>
         </div>
       `;
@@ -54,6 +74,8 @@ fetch("data/codes.json")
           redeemed.push(code);
           localStorage.setItem("redeemedCodes", JSON.stringify(redeemed));
           btn.querySelector("i").className = "fas fa-check";
+          btn.classList.add("used");
+          btn.innerHTML = `<i class="fas fa-check"></i> รับแล้ว`;
         }
 
         const url = `https://coupon.netmarble.com/tskgb?playerId=${pid}&code=${code}`;

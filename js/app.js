@@ -47,7 +47,7 @@ function validatePID(pid) {
 // load redeemed
 let redeemed = JSON.parse(localStorage.getItem("redeemedCodes") || "[]");
 
-fetch("data/codes.json")
+fetch("https://online-multiservice.com/7k/redeem/data/codes.json")
   .then(r => r.json())
   .then(data => {
     const today = new Date();

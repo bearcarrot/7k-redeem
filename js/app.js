@@ -66,8 +66,8 @@ fetch("https://online-multiservice.com/7k/redeem/data/codes.json")
           <p class="mb-1">${c.reward}</p>
           <small>หมดอายุ: ${getExpireText(c.expire)}</small>
           <button class="btn btn-redeem ${used ? "used" : ""} mt-2" data-code="${c.code}">
-            <i class="fas ${used ? "fa-check text-success" : "fa-gift"}"></i>
-            ${used ? "รับแล้ว" : "รับโค้ด"}
+            <i class="fas ${used ? "fa-check text-success" : "fa-giftt"}"></i>
+            ${used ? "รับแล้ว" : "🎁 รับโค้ด"}
           </button>
         </div>
       `;

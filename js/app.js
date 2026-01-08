@@ -80,7 +80,7 @@ fetch("https://online-multiservice.com/7k/redeem/data/codes.json")
         const code = btn.dataset.code;
         const pid = pidInput.value.trim();
 
-
+        /*
         if (!pid) {
           pidInput.classList.add("is-invalid", "shake");
           pidError.textContent = "กรุณากรอก UID";
@@ -89,7 +89,7 @@ fetch("https://online-multiservice.com/7k/redeem/data/codes.json")
           setTimeout(() => pidInput.classList.remove("shake"), 300);
           pidInput.focus();
           return;
-        }
+       }
 
         if (!validatePID(pid)) {
           pidInput.classList.add("is-invalid", "shake");
@@ -114,6 +114,33 @@ fetch("https://online-multiservice.com/7k/redeem/data/codes.json")
 
         const url = `https://coupon.netmarble.com/tskgb?playerId=${pid}&code=${code}`;
         window.open(url, "_blank");
+        */
+
+// ถ้ามี PID แต่ไม่ถูกต้อง → แจ้งเตือน
+if (pid && !validatePID(pid)) {
+  pidInput.classList.add("is-invalid", "shake");
+  pidError.textContent = "กรุณากรอก UID ให้ถูกต้อง";
+  pidError.classList.remove("d-none");
+
+  setTimeout(() => pidInput.classList.remove("shake"), 300);
+  pidInput.focus();
+  return;
+}
+
+// mark redeemed (ทำได้แม้ไม่ใส่ PID)
+if (!redeemed.includes(code)) {
+  redeemed.push(code);
+  localStorage.setItem("redeemedCodes", JSON.stringify(redeemed));
+  btn.classList.add("used");
+  btn.innerHTML = `<i class="fas fa-check text-success"></i> รับแล้ว`;
+}
+
+// สร้าง URL ตามว่ามี PID ไหม
+const url = pid
+  ? `https://coupon.netmarble.com/tskgb?playerId=${pid}&code=${code}`
+  : `https://coupon.netmarble.com/tskgb?code=${code}`;
+
+window.open(url, "_blank");
       });
     });
   });

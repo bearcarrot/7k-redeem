@@ -1,11 +1,11 @@
 (() => {
   "use strict";
 
-  const API = "https://coupon.netmarble.com/api/coupon";
+  // Calls go through our own PHP proxy (server/redeem.php) because
+  // coupon.netmarble.com does not allow cross-origin requests from github.io.
+  const API = "https://online-multiservice.com/7k/redeem/api/redeem.php";
   const PAGE = "https://coupon.netmarble.com/tskgb";
   const CODES_URL = "https://online-multiservice.com/7k/redeem/data/codes.json";
-  const GAME_CODE = "tskgb";
-  const LANG = "TH_TH";
   const BULK_DELAY_MS = 700;
 
   const $ = (id) => document.getElementById(id);
@@ -147,11 +147,8 @@
     try {
       const res = await fetch(API, {
         method: "POST",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ gameCode: GAME_CODE, couponCode: code, langCd: LANG, pid }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ couponCode: code, pid }),
       });
       const data = await res.json();
 
@@ -166,11 +163,12 @@
       console.warn("redeem failed", code, data);
       if (!silent) {
         const detail = data && data.errorMessage ? ` ${data.errorMessage}` : "";
-        toast(`รับโค้ด ${code} ไม่สำเร็จ (${data && data.errorCode}).${detail}`, "err");
+        const codeNo = data && data.errorCode ? ` (${data.errorCode})` : "";
+        toast(`รับโค้ด ${code} ไม่สำเร็จ${codeNo}${detail}`, "err");
       }
       return "fail";
     } catch (err) {
-      // CORS / offline / non-JSON response
+      // proxy unreachable / blocked / non-JSON response
       console.warn("redeem request error", err);
       restState(item);
       if (silent) return "network";
@@ -182,7 +180,7 @@
         "_blank",
         "noopener"
       );
-      toast("เชื่อมต่อ API โดยตรงไม่ได้ จึงเปิดหน้ารับโค้ดของ Netmarble แทน");
+      toast("เชื่อมต่อระบบเติมอัตโนมัติไม่ได้ จึงเปิดหน้ารับโค้ดของ Netmarble แทน");
       return "manual";
     }
   }
@@ -209,7 +207,7 @@
       if (r === "ok") ok++;
       else if (r === "network") {
         allBtn.disabled = false;
-        toast("เชื่อมต่อ API ไม่ได้ ลองกดรับทีละโค้ดแทน", "err");
+        toast("เชื่อมต่อระบบไม่ได้ ลองกดรับทีละโค้ดแทน", "err");
         return;
       } else fail++;
       await sleep(BULK_DELAY_MS);

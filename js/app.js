@@ -3,7 +3,7 @@
 
   // Calls go through our own PHP proxy (server/redeem.php) because
   // coupon.netmarble.com does not allow cross-origin requests from github.io.
-  const API = "https://online-multiservice.com/7k/redeem/api/redeem.php";
+  const API = "https://online-multiservice.com/7k/redeem/api/redeem";
   const PAGE = "https://coupon.netmarble.com/tskgb";
   const CODES_URL = "https://online-multiservice.com/7k/redeem/data/codes.json";
   const BULK_DELAY_MS = 700;
